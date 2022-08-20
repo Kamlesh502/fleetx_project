@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
-import { LoadingCard } from './lodingCard'
-export default function ImageCard({ imgData, handleShowPreview }) {
-  const [imgLoading, setImgLoading] = useState(true)
+import React from 'react'
+
+const ImageCard = React.forwardRef((props, ref) => {
+
 
   const handleImageClick = () => {
-    handleShowPreview(imgData.download_url)
+    props.handleShowPreview(props.imgData.download_url)
   }
   return (
     <>
-      <div className="img__card" onClick={handleImageClick}>
+      <div className="img__card" onClick={handleImageClick} ref={ref}>
         <>
-          <img src={imgData.download_url} onLoad={() => setImgLoading(true)} ></img>
-          <div className='img__description'>  {imgData.author}</div>
+          <img src={props.imgData.download_url}  ></img>
+          <div className='img__description'>  {props.imgData.author}</div>
         </>
       </div>
     </>
 
   )
-}
+})
+
+export default ImageCard

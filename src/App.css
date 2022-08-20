@@ -33,6 +33,9 @@
 }
 .img__preview {
   width: 50%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  height: 70vh;
+  position: relative;
 }
 
 .img__preview img {

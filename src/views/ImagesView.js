@@ -1,31 +1,49 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { getImages } from '../api/imageAPI'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import ImageCard from './ImageCard'
 import CloseIcon from "../assets/icons8-close.svg"
-import clsx from 'clsx'
+import useMoreImages from '../hooks/useMoreImages'
 
 export default function ImagesView() {
-  const [images, setImages] = useState([])
+  // const [images, setImages] = useState([])
   const [showPreview, setShowPreview] = useState(false)
   const [previewImageURL, setPreviewImageURL] = useState("")
-  const [loader, setLoader] = useState(true);
-  const triggerRef = useRef(null)
-  useEffect(() => {
-    getImages().then((res) => {
-      setImages(res)
-    })
-  }, [])
+  const [pageNumber, setPageNumber] = useState(1)
+
+  const {
+    images,
+    hasMore,
+    loading,
+    error
+  } = useMoreImages(pageNumber)
+
   const handleShowPreview = (id) => {
     setPreviewImageURL(id)
     setShowPreview(true)
   }
+
+  const observer = useRef()
+  const lastBookElementRef = useCallback(node => {
+    if (loading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPageNumber(prevPageNumber => prevPageNumber + 1)
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [loading])
+
   return (
     <>
       <div className='img__view'>
         <div className='img__wrapper'>
           {
-            images.map(img => {
-              return <ImageCard imgData={img} key={img.id} handleShowPreview={handleShowPreview} />
+            images.map((img, index) => {
+              if (images.length === index + 1) {
+                return <ImageCard imgData={img} key={img.id} handleShowPreview={handleShowPreview} ref={lastBookElementRef} />
+              } else {
+                return <ImageCard imgData={img} key={img.id} handleShowPreview={handleShowPreview} />
+              }
             })
           }
         </div>
@@ -40,7 +58,6 @@ export default function ImagesView() {
             </div>
           </div>
         }
-        <div ref={triggerRef} className={clsx('trigger', { visible: false })}></div>
       </div>
     </>
 
