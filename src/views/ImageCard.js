@@ -1,13 +1,20 @@
-import React from 'react'
-
-export default function ImageCard({ img_url, handleShowPreview }) {
+import React, { useState } from 'react'
+import { LoadingCard } from './lodingCard'
+export default function ImageCard({ imgData, handleShowPreview }) {
+  const [imgLoading, setImgLoading] = useState(true)
 
   const handleImageClick = () => {
-    handleShowPreview(img_url)
+    handleShowPreview(imgData.download_url)
   }
   return (
-    <div style={{ width: '150px', height: '150px', cursor: 'pointer' }} className="img__card" onClick={handleImageClick}>
-      <img src={img_url} alt="like icon" style={{ width: '150px', height: '150px' }}></img>
-    </div>
+    <>
+      <div className="img__card" onClick={handleImageClick}>
+        <>
+          <img src={imgData.download_url} onLoad={() => setImgLoading(true)} ></img>
+          <div className='img__description'>  {imgData.author}</div>
+        </>
+      </div>
+    </>
+
   )
 }

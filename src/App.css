@@ -7,10 +7,29 @@
   flex: 70%;
   flex-wrap: wrap;
   padding: 10px;
+  margin-top: 10px;
 }
+
 .img__card {
-  padding: 10px;
   margin: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 250px;
+  height: 300px;
+  cursor: pointer;
+}
+
+.img__card img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+.img__card .img__description {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: 35px;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 .img__preview {
   width: 50%;
