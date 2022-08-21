@@ -38,25 +38,33 @@ export default function ImagesView() {
       <div className='img__view'>
         <div className='img__wrapper'>
           {
-            images.map((img, index) => {
+            images.map((image, index) => {
               if (images.length === index + 1) {
-                return <ImageCard imgData={img} key={img.id} handleShowPreview={handleShowPreview} ref={lastBookElementRef} />
+                return <div className="img__card" onClick={() => handleShowPreview(image)} ref={lastBookElementRef} key={image.id}>
+                  <img src={image.urls.small} loading='lazy' ></img>
+                  <div className='img__description font-bold'>  {image.user.first_name}</div>
+                </div>
               } else {
-                return <ImageCard imgData={img} key={img.id} handleShowPreview={handleShowPreview} />
+                return <div className="img__card " onClick={() => handleShowPreview(image)} key={image.id}>
+                  <img src={image.urls.small} loading='lazy'></img>
+                  <div className='img__description font-bold'>  {image.user.first_name}</div>
+                </div>
               }
             })
           }
         </div>
         {
           showPreview &&
-          <div className='img__preview'>
-            <div className='preview__close' onClick={() => setShowPreview(false)}>
-              <img src={CloseIcon}></img>
-            </div>
-            <div>
-              <img src={previewImageURL}></img>
+          <div className='img__preview__wrapper'>
+            <div className='img__preview'>
+              <div className='preview__close' onClick={() => setShowPreview(false)}>
+                <img src={CloseIcon}></img>
+              </div>
+              <img className='image_tag' src={previewImageURL.urls.regular}></img>
+              <p className='font-bold ml-3 text-lg '>{previewImageURL.user.first_name}</p>
             </div>
           </div>
+
         }
       </div>
     </>

@@ -8,7 +8,7 @@ const ImageCard = React.forwardRef((props, ref) => {
   }
   return (
     <>
-      <div className="img__card" onClick={handleImageClick} ref={ref}>
+      <div className="img__card " onClick={handleImageClick} ref={ref}>
         <>
           <img src={props.imgData.download_url}  ></img>
           <div className='img__description'>  {props.imgData.author}</div>

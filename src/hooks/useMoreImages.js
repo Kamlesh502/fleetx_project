@@ -17,7 +17,7 @@ export default function useMoreImages(pageNumber) {
     let cancel
     axios({
       method: 'GET',
-      url: `https://picsum.photos/v2/list?page=${pageNumber}&limit=20&q=10&w=500`,
+      url: `https://api.unsplash.com/photos/?client_id=${process.env.REACT_APP_ACCESS_KEY}&page=${pageNumber}&per_page=20`,
       cancelToken: new axios.CancelToken(c => cancel = c)
     }).then(res => {
       setImages(prevBooks => {
